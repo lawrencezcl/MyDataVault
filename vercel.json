@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/server.ts",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["contracts/**", "shared/**"]
+      }
+    },
+    {
+      "src": "dist/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "api/server.ts"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "dist/$1"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "JWT_SECRET": "@jwt-secret",
+    "IPFS_HOST": "ipfs.infura.io",
+    "IPFS_PORT": "5001",
+    "IPFS_PROTOCOL": "https",
+    "IPFS_AUTH": "@ipfs-auth",
+    "POLKADOT_WS_URL": "wss://rpc.astar.network"
+  }
+}
