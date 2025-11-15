@@ -4,7 +4,7 @@
  */
 import { Router, type Request, type Response } from 'express'
 
-const router = Router()
+const router: Router = Router()
 
 /**
  * User Login

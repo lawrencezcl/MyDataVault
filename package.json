@@ -6,6 +6,8 @@
   "scripts": {
     "client:dev": "vite",
     "build": "tsc -b && vite build",
+    "build:static": "vite build",
+    "build:api": "tsc -p api/tsconfig.json --outDir dist-api",
     "lint": "eslint .",
     "preview": "vite preview",
     "check": "tsc --noEmit",

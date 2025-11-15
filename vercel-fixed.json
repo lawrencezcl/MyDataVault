@@ -1,0 +1,66 @@
+{
+  "version": 2,
+  "functions": {
+    "api/hello.js": {
+      "runtime": "nodejs18.x"
+    },
+    "api/health.js": {
+      "runtime": "nodejs18.x"
+    },
+    "api/ipfs-upload.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "builds": [
+    {
+      "src": "api/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/hello",
+      "dest": "/api/hello.js"
+    },
+    {
+      "src": "/api/health",
+      "dest": "/api/health.js"
+    },
+    {
+      "src": "/api/ipfs/upload",
+      "dest": "/api/ipfs-upload.js"
+    },
+    {
+      "src": "/api/test",
+      "dest": "/api/test.js"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/dist/assets/$1"
+    },
+    {
+      "src": "/favicon.svg",
+      "dest": "/dist/favicon.svg"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/dist/index.html"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "JWT_SECRET": "0b4a93420a6f31368a64a96554616387cac18b7fb71f553e3aa34a1339f7f3249b194178ab299524fe0b3b8b584027959e10d7682068ea2bd0e84310b86b7aef",
+    "IPFS_HOST": "ipfs.infura.io",
+    "IPFS_PORT": "5001",
+    "IPFS_PROTOCOL": "https",
+    "IPFS_AUTH": "Basic $(echo -n '$(PROJECT_ID):$(PROJECT_SECRET)' | base64)",
+    "POLKADOT_WS_URL": "wss://rpc.astar.network"
+  }
+}
