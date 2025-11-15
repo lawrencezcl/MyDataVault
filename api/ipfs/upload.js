@@ -1,4 +1,22 @@
 // Vercel serverless function for IPFS upload with proper CORS and error handling
+
+// Parse request body for Vercel serverless functions
+const parseBody = (req) => {
+  return new Promise((resolve, reject) => {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+    });
+    req.on('end', () => {
+      try {
+        resolve(body ? JSON.parse(body) : {});
+      } catch (error) {
+        reject(new Error('Invalid JSON in request body'));
+      }
+    });
+  });
+};
+
 export default async (req, res) => {
   // Set CORS headers first
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -19,7 +37,9 @@ export default async (req, res) => {
   }
   
   try {
-    const { content, fileName, fileType, encrypt } = req.body;
+    // Parse request body
+    const body = await parseBody(req);
+    const { content, fileName, fileType, encrypt } = body;
     
     if (!content) {
       return res.status(400).json({ 

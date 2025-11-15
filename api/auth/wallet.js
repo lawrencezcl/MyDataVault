@@ -3,6 +3,23 @@ import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || '0b4a93420a6f31368a64a96554616387cac18b7fb71f553e3aa34a1339f7f3249b194178ab299524fe0b3b8b584027959e10d7682068ea2bd0e84310b86b7aef';
 
+// Parse request body for Vercel serverless functions
+const parseBody = (req) => {
+  return new Promise((resolve, reject) => {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+    });
+    req.on('end', () => {
+      try {
+        resolve(body ? JSON.parse(body) : {});
+      } catch (error) {
+        reject(new Error('Invalid JSON in request body'));
+      }
+    });
+  });
+};
+
 export default async (req, res) => {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -23,7 +40,9 @@ export default async (req, res) => {
   }
   
   try {
-    const { address, signature, message } = req.body;
+    // Parse request body
+    const body = await parseBody(req);
+    const { address, signature, message } = body;
     
     if (!address || !signature || !message) {
       return res.status(400).json({ 
