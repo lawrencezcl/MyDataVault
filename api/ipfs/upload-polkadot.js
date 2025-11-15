@@ -1,10 +1,10 @@
 // Vercel serverless function for Polkadot-native IPFS integration
-const { PolkadotIPFSService } = require('../src/services/ipfsService');
+import { PolkadotIPFSService } from '../services/ipfsServiceSimple.js';
 
 // Initialize IPFS service
 const ipfsService = new PolkadotIPFSService();
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   // Set comprehensive CORS headers for Polkadot integration
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
