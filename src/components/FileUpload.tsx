@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Upload, File, X, Shield, AlertCircle, CheckCircle } from 'lucide-react';
 import { DataType } from '../../shared/types';
+import { API_CONFIG } from '../config/api';
 
 interface FileUploadProps {
   onUploadComplete: (result: any) => void;
@@ -61,7 +62,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete, onError }) =>
       setUploadProgress(30);
 
       const token = localStorage.getItem('authToken');
-      const response = await fetch('/api/ipfs/upload', {
+      const response = await fetch(API_CONFIG.getFullUrl(API_CONFIG.endpoints.ipfsUpload), {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -79,7 +80,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete, onError }) =>
       setUploadProgress(100);
 
       // Store metadata on blockchain
-      const blockchainResponse = await fetch('/api/blockchain/store', {
+      const blockchainResponse = await fetch(API_CONFIG.getFullUrl(API_CONFIG.endpoints.blockchainStore), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

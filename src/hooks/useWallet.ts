@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { web3Enable, web3Accounts } from '@polkadot/extension-dapp';
 import { stringToHex } from '@polkadot/util';
+import { API_CONFIG } from '../config/api';
 
 export interface WalletAccount {
   address: string;
@@ -101,7 +102,7 @@ export const useWallet = () => {
       const message = `MyDataVault authentication ${Date.now()}`;
       const signature = await signMessage(message, accountToUse);
 
-      const response = await fetch('/api/auth/wallet', {
+      const response = await fetch(API_CONFIG.getFullUrl(API_CONFIG.endpoints.authWallet), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
