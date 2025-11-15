@@ -8,27 +8,33 @@ const getApiBaseUrl = (): string => {
   // Check if we're in development mode (Vite dev server)
   const isDevelopment = import.meta.env.DEV;
   
+  // Check for production environment variables
+  const viteApiUrl = import.meta.env.VITE_API_URL;
+  const isVercelEnv = import.meta.env.VERCEL === '1';
+  
   console.log('API Config Debug:', {
     hostname,
     isLocalhost,
     isVercel,
     isDevelopment,
+    viteApiUrl,
+    isVercelEnv,
     env: import.meta.env
   });
   
-  if (isDevelopment || isLocalhost) {
-    // In development or localhost, use the local server
-    return import.meta.env.VITE_API_URL || 'http://localhost:3001';
-  }
-  
-  if (isVercel) {
-    // In Vercel production, use relative URLs (same origin)
-    console.log('Using relative URLs for Vercel production');
+  // Force relative URLs in production
+  if (!isDevelopment && !isLocalhost) {
+    console.log('Production environment detected - using relative URLs');
     return '';
   }
   
-  // Fallback for other production environments
-  console.log('Using relative URLs for production');
+  if (isDevelopment || isLocalhost) {
+    // In development or localhost, use the local server
+    return viteApiUrl || 'http://localhost:3001';
+  }
+  
+  // Fallback - should not reach here due to production check above
+  console.log('Fallback - using relative URLs');
   return '';
 };
 
