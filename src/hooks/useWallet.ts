@@ -102,7 +102,14 @@ export const useWallet = () => {
       const message = `MyDataVault authentication ${Date.now()}`;
       const signature = await signMessage(message, accountToUse);
 
-      const response = await fetch(API_CONFIG.getFullUrl(API_CONFIG.endpoints.authWallet), {
+      // 🚨 EMERGENCY FIX: Force relative URL for production
+      const authApiUrl = typeof window !== 'undefined' && window.location.hostname.includes('localhost') 
+        ? 'http://localhost:3001/api/auth/wallet'
+        : '/api/auth/wallet';
+      
+      console.log('🚨 EMERGENCY AUTH URL:', authApiUrl);
+
+      const response = await fetch(authApiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

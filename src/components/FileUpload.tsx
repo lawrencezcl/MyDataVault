@@ -62,7 +62,14 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete, onError }) =>
       setUploadProgress(30);
 
       const token = localStorage.getItem('authToken');
-      const response = await fetch(API_CONFIG.getFullUrl(API_CONFIG.endpoints.ipfsUpload), {
+      // 🚨 EMERGENCY FIX: Force relative URL for production
+      const apiUrl = window.location.hostname.includes('localhost') 
+        ? 'http://localhost:3001/api/ipfs/upload'
+        : '/api/ipfs/upload';
+      
+      console.log('🚨 EMERGENCY UPLOAD URL:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -80,7 +87,13 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete, onError }) =>
       setUploadProgress(100);
 
       // Store metadata on blockchain
-      const blockchainResponse = await fetch(API_CONFIG.getFullUrl(API_CONFIG.endpoints.blockchainStore), {
+      const blockchainApiUrl = window.location.hostname.includes('localhost') 
+        ? 'http://localhost:3001/api/blockchain/store'
+        : '/api/blockchain/store';
+      
+      console.log('🚨 EMERGENCY BLOCKCHAIN URL:', blockchainApiUrl);
+      
+      const blockchainResponse = await fetch(blockchainApiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
