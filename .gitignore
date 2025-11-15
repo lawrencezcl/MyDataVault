@@ -27,3 +27,14 @@ dist-ssr
 
 # Local Netlify folder
 .netlify
+
+# Rust build artifacts
+contracts/target/
+contracts/Cargo.lock
+
+# API build artifacts
+dist-api/
+
+# Test files
+test-function.js
+test-function.mjs
