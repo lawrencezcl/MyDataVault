@@ -1,5 +1,5 @@
 // Simple Vercel serverless function
-module.exports = (req, res) => {
+export default (req, res) => {
   res.status(200).json({ 
     message: 'MyDataVault API is working!',
     timestamp: new Date().toISOString(),

@@ -1,9 +1,9 @@
 // Vercel serverless function for wallet authentication
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || '0b4a93420a6f31368a64a96554616387cac18b7fb71f553e3aa34a1339f7f3249b194178ab299524fe0b3b8b584027959e10d7682068ea2bd0e84310b86b7aef';
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');

@@ -1,5 +1,5 @@
 // Vercel serverless function for IPFS upload with proper CORS and error handling
-module.exports = async (req, res) => {
+export default async (req, res) => {
   // Set CORS headers first
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
